@@ -28,6 +28,7 @@ namespace success_pyramid
 		FileInfo[] Images;
 		int CurrentImageIndex = 0;
 		SerialPort Port;
+		bool Fullscreen = false;
 
 		public MainWindow()
 		{
@@ -135,7 +136,7 @@ namespace success_pyramid
 			}
 		}
 
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			if (Port != null && Port.IsOpen)
 			{
@@ -145,6 +146,54 @@ namespace success_pyramid
 				}
 				catch { }
 			}
+		}
+
+		CurrentWindowState LastWindowState;
+
+		private void ToggleFullscreen(object sender, RoutedEventArgs e)
+		{
+			Fullscreen = !Fullscreen;
+			if (Fullscreen)
+			{
+				LastWindowState = new CurrentWindowState
+					{
+						WindowStyle = this.WindowStyle,
+						ResizeMode = this.ResizeMode,
+						Left = this.Left,
+						Top = this.Top,
+						Width = this.Width,
+						Height = this.Height,
+						Topmost = this.Topmost
+					};
+				this.WindowStyle = WindowStyle.None;
+				this.ResizeMode = ResizeMode.NoResize;
+				this.Left = 0;
+				this.Top = 0;
+				this.Width = SystemParameters.VirtualScreenWidth;
+				this.Height = SystemParameters.VirtualScreenHeight;
+				this.Topmost = true;
+			}
+			else
+			{
+				this.WindowStyle = LastWindowState.WindowStyle;
+				this.ResizeMode = LastWindowState.ResizeMode;
+				this.Left = LastWindowState.Left;
+				this.Top = LastWindowState.Top;
+				this.Width = LastWindowState.Width;
+				this.Height = LastWindowState.Height;
+				this.Topmost = LastWindowState.Topmost;
+			}
+		}
+
+		struct CurrentWindowState
+		{
+			public WindowStyle WindowStyle;
+			public ResizeMode ResizeMode;
+			public double Left;
+			public double Top;
+			public double Width;
+			public double Height;
+			public bool Topmost;
 		}
 	}
 }
