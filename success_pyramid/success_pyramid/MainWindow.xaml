@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:success_pyramid"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Closing="WindowClosing">
-	<Grid>
+        Title="MainWindow" Height="600" Width="800" Closing="WindowClosing" PreviewMouseDown="ImageMouseDown">
+	<Grid x:Name="MainGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
 			<RowDefinition Height="40"/>

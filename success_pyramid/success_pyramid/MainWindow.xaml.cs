@@ -163,8 +163,9 @@ namespace success_pyramid
 						Top = this.Top,
 						Width = this.Width,
 						Height = this.Height,
-						Topmost = this.Topmost
-					};
+						Topmost = this.Topmost,
+						BottmBarHeight = this.MainGrid.RowDefinitions[1].Height
+				};
 				this.WindowStyle = WindowStyle.None;
 				this.ResizeMode = ResizeMode.NoResize;
 				this.Left = 0;
@@ -172,6 +173,7 @@ namespace success_pyramid
 				this.Width = SystemParameters.VirtualScreenWidth;
 				this.Height = SystemParameters.VirtualScreenHeight;
 				this.Topmost = true;
+				this.MainGrid.RowDefinitions[1].Height = new GridLength(0);
 			}
 			else
 			{
@@ -182,6 +184,7 @@ namespace success_pyramid
 				this.Width = LastWindowState.Width;
 				this.Height = LastWindowState.Height;
 				this.Topmost = LastWindowState.Topmost;
+				this.MainGrid.RowDefinitions[1].Height = LastWindowState.BottmBarHeight;
 			}
 		}
 
@@ -194,6 +197,15 @@ namespace success_pyramid
 			public double Width;
 			public double Height;
 			public bool Topmost;
+			public GridLength BottmBarHeight;
+		}
+
+		private void ImageMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (Fullscreen && e.ClickCount == 2)
+			{
+				ToggleFullscreen(null, null);
+			}
 		}
 	}
 }
